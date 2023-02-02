@@ -1,6 +1,6 @@
 {
-  "id": "cldagrcby0000jr08c3i3z50e",
-  "name": "site-test",
+  "id": "cldagxuia0002jr08dl02qf60",
+  "name": "test",
   "distDir": "out",
   "buildCommand": "npm run build"
 }
