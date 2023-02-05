@@ -18,7 +18,7 @@ yarn
 ### Start development mode
 This will start a server on http://localhost:3000 where you can check the changes made to the content.
 ```
-yarn dev
+yarn develop
 ```
 
 ### Build your site
