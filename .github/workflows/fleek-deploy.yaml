@@ -16,4 +16,5 @@ jobs:
       - name: Install Fleek CLI
         run: npm i -g @fleekxyz/cli@0.1.0-rc.4
       - name: Build & deploy sites
+        run: npm install
         run: fleek sites deploy
