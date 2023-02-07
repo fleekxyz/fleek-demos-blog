@@ -1,10 +1,11 @@
-name: Deploy sites via Fleek
+name: Deploy site via Fleek
 on: push
 jobs:
   deploy-to-fleek:
     runs-on: ubuntu-latest
     env:
-      FLEEK_TOKEN: pat_x5T8wvk4I4prSjOQ-tPX
+      FLEEK_TOKEN: ${{ secrets.FLEEK_TOKEN }}
+      FLEEK_PROJECT_ID: ${{ secrets.FLEEK_PROJECT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
