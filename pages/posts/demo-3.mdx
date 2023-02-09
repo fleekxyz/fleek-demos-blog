@@ -71,7 +71,7 @@ Now lets go back to the terminal and create a pull request.
 
 Now we can see that the CI is running.
 
-[![CI]](./images/ci.png)
+![CI](public/images/ci.png)
 
 But will it finish?
 
@@ -83,3 +83,9 @@ Lets add to the `fleek-deploy.yaml` file the following line:
 - name: Install Packages
     run: npm install
 ```
+
+Now lets commit and push the changes and see the result
+
+![CI](public/images/ci-2.png)
+
+Success! The site was deployed to IPFS vis the GHA!
