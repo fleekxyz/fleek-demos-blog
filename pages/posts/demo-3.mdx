@@ -72,3 +72,14 @@ Now lets go back to the terminal and create a pull request.
 Now we can see that the CI is running.
 
 [![CI]](./images/ci.png)
+
+But will it finish?
+
+No because we have not set the install command befopre calling the deploy command. Thus failing when trying to build the site.
+
+Lets add to the `fleek-deploy.yaml` file the following line:
+
+```yaml copy
+- name: Install Packages
+    run: npm install
+```
