@@ -1,0 +1,91 @@
+---
+title: Configuring CI/CD for your IPFS site
+date: 2023/2/10
+description: Configure GHA CI for you sites
+tag: SITES
+author: You
+---
+
+## Introduction
+
+For this demo we will be expanding the project to be able to generate a github action that will build and deploy the site to IPFS.
+And some other improvements.
+
+## List Sites
+
+First lets remember the sites we have created so far. For this we have introduced the `list` command.
+
+```bash copy
+> fleek sites list
+WARN! Fleek CLI is in beta, use it at your own discretion
+id                         name            
+-------------------------------------------
+cldach9r10000l508g2sqo3c2  fleek-demos     
+cldbsgk7b0000ms08fl9ski7h  fleek-demo-2    
+cldcy9ou30000md081svcz9em  fleek-demo-docs 
+cldda19st0000kz081v8v9esj  fleek-demos-blog
+```
+
+Nice, we can see all the sites we have created so far. In future version we should de able to display some extra information on this sites.
+
+## Setting up the CI
+
+Lets go to the `fleek-demos-blog` site and create a new branch called `ci`. This branch will contain the configuration for the CI so we can test it a pull request.
+
+```bash copy
+> fleek sites ci
+WARN! Fleek CLI is in beta, use it at your own discretion
+? Select provider you want to use for building and deploying your sites › - Use arrow-keys. Return to submit.
+❯   GitHub Actions - Generator of Github Actions YAML file
+```
+
+We can see that we have only one option for now, but in the future we will be adding more options. For now lets select `GitHub Actions`.
+
+```bash copy
+? Workflow config will be saved in: /Users/riveign/development/fleek/fleek-demo/fleek-demos-blog/.github/workflows/fleek-deploy.yaml. Would you like to specify a different path? › No / Yes
+```
+
+We can see that the file will be saved in the `.github/workflows` folder. This is the default location for github actions. If we want to change the location we can select `Yes` and specify the path. For now lets select `No`.
+
+```bash copy
+WARN! Cant find .github/workflows directory.
+WARN! Creating .github/workflows directory.
+> Success! Github Actions workflow was saved to /Users/riveign/development/fleek/fleek-demo/fleek-demos-blog/.github/workflows/fleek-deploy.yaml file.
+> Set following secrets in your Github repository settings:
+
+Name              Value                    
+-------------------------------------------
+FLEEK_TOKEN       - 
+FLEEK_PROJECT_ID  -
+```
+
+We can see that the file was created and we have to set some secrets in the github repository settings. Lets go to the github repository settings and add the secrets.
+
+Now lets go back to the terminal and create a pull request.
+
+```bash copy
+> git add .
+> git commit -m "ci: add ci config"
+> git push origin ci
+```
+
+Now we can see that the CI is running.
+
+![CI](public/images/ci.png)
+
+But will it finish?
+
+No because we have not set the install command befopre calling the deploy command. Thus failing when trying to build the site.
+
+Lets add to the `fleek-deploy.yaml` file the following line:
+
+```yaml copy
+- name: Install Packages
+    run: npm install
+```
+
+Now lets commit and push the changes and see the result. Dont worry this flow will be added into the cli in the next version.
+
+![CI](public/images/ci-2.png)
+
+Success! The site was deployed to IPFS vis the GHA!
