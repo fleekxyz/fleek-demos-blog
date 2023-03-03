@@ -1,0 +1,114 @@
+---
+title: Custom Domains
+date: 2023/3/3
+description: Configure Custom Domains for your Fleek site
+tag: SITES
+author: You
+---
+
+## Introduction
+
+For this demo we will be showing how to use the new Domains command on the CLi to set up your custom domain.
+
+It is important that for this demo you have
+
+- A domain name (you can buy one on Hover or Namecheap).
+- A Fleek site (you can create one with the Fleek CLI).
+- A Cloudflare account (you can create one for free).
+
+## Domains
+
+The custom domains feature in the new Fleek Platform allows you to connect your custom domain to your Fleek site. This is done by adding a ANAME record to your DNS provider. 
+
+Not all DNS providers support ANAME records, so if you are using a DNS provider that does not support ANAME records, you can use Cloudflare as a proxy to your Fleek site.
+
+To learn more about ANAME records, check out this [article](https://www.freecodecamp.org/news/what-is-aname-aname-record-dns-tutorial/).
+
+This are some of the DN/CDN providers that support ANAME records:
+
+- Cloudflare
+- DNS Made Easy
+- DNSimple
+- CONSTELLIX
+- DYN DNS
+- Easy DNS
+- NS1
+
+## Add a domain
+
+To add a domain to your Fleek site, you can use the `fleek domains add` command.
+
+```bash
+  > fleek domains add
+    WARN! Fleek CLI is in beta, use it at your own discretion
+    ✔ Choose site to add domain to › fleek-demos-blog-2
+```
+
+Once you finish the wizzard you should end on a prompt like this:
+
+```bash
+  > fleek domains add
+    WARN! Fleek CLI is in beta, use it at your own discretion
+    ✔ Choose site to add domain to › fleek-demos-blog-2
+    ✔ Enter domain name (eg. example.com) … fleekdemos.online
+    > Success! Domain "fleekdemos.online" successfully added.
+    > Update DNS records for "fleekdemos.online":
+    > CNAME @ clephpbaq0001jy08v0776nem.b-cdn.net
+    > Press any key as soon as you configure your domain provider for verification.
+```
+
+Now we need to set up the CNAME record in our DNS provider. In this case we will be using Cloudflare in conjunction with Hover.
+
+IMPORTANT: If you are only using subdomains you dont need to set up an ANAME record, you can use a CNAME record instead.
+
+Once we set up everything we can run the verification by pressing a key, this will check that the records are correctly set on the domain.
+
+```bash
+    > fleek domains add
+        WARN! Fleek CLI is in beta, use it at your own discretion
+        ✔ Choose site to add domain to › fleek-demos-blog-2
+        ✔ Enter domain name (eg. example.com) … fleekdemos.online
+        > Success! Domain "fleekdemos.online" successfully added.
+        > Update DNS records for "fleekdemos.online":
+        > CNAME @ clephpbaq0001jy08v0776nem.b-cdn.net
+        > Press any key as soon as you configure your domain provider for verification.
+        > Success! Domain "fleekdemos.online" was verified.
+```
+
+Now we have our domain set!
+
+## List Domains and details
+
+We can see all the domains that have been setted to our site by running the `fleek domains list` command.
+
+```bash
+  > fleek domains list
+  WARN! Fleek CLI is in beta, use it at your own discretion
+  Hostname           Created At                 Verified
+  ------------------------------------------------------  
+  fleekdemos.online  2023-03-01T09:43:09.698Z  ✔     
+```
+
+and wit this information we can also request for the details of a specific domain by running the `fleek domains details` command passing a hostname as parameter.
+
+```bash
+  > fleek domains detail fleekdemos.online
+  WARN! Fleek CLI is in beta, use it at your own discretion
+  Hostname           CreatedAt                 Verified
+  -----------------------------------------------------
+  fleekdemos.online  2023-03-01T09:43:09.698Z  ✔       
+  > Configure your domain provider according to following table:
+  Type   Name      Value                              
+  ----------------------------------------------------
+  CNAME  hostname  clephpbaq0001jy08v0776nem.b-cdn.net 
+```
+
+## Manual verification
+
+If you are of the group of people like me that made an incorrect setting up of the domain and you want to try again, you can run the `fleek domains verify` command to try again.
+
+```bash
+  > fleek domains verify fleekdemos.online
+  WARN! Fleek CLI is in beta, use it at your own discretion
+  > Success! Domain "fleekdemos.online" was verified.
+```
