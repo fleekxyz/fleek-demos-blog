@@ -1,0 +1,134 @@
+---
+title: Domains, Deploys, PATs, Backoffice
+date: 2023/3/17
+description: Update on domains, introudcing deployments and PATs, and a look at the backoffice
+tag: BACKOFFICE, PAT, DEPLOYMENT, DOMAIN
+author: You
+---
+
+## Introductions
+
+Welcome everybody to demo number 5. It's been a hectic two weeks since the last demo, but we've made some great progress. We've got a lot to cover today, so let's get started.
+
+In today's agenda we are covering the following topics:
+
+* Update on Domains
+* Understanding deployments
+* Introducing PATs
+* A look at the backoffice
+
+Lets get started!
+
+## Update on Domains
+
+We have release the custom domain festure into the public with a big array of improvements on the user experience since the last demo.
+
+We have recorded a video demoing the feature and you can find it here: https://discord.com/channels/1045027913260617789/1045488325282234368/1085852098974990406 
+
+We also have update the documentation on the feature (as with others) here: https://docs.fleek.xyz/services/domains/
+
+## Understanding deployments
+
+As part of the release `0.2.0` we have introduce into the platform the concept of Deployments. This is an entity that represents.. well that a deployment.
+
+They are related to a specific site and holds information about an specific deployment like:
+
+* The deployment stauts (Create, Available, Success,  Failed)
+* The storage Type
+* A reference to the content (CID in the case of IPFS)
+
+As you can infer this is the entity that we use to track the differnet stages of the deployment and in conjunction with the event based architecture we emit events depending on the different stages of the deployment.
+
+As a user you can see the list of the deployments for a specific site in the CLI.
+
+```bash
+> fleek sites deployments
+WARN! Fleek CLI is in beta, use it at your own discretion
+✔ Choose site to list deployments for › fleek-docs-beta
+
+ID                         CreatedAt                 UpdatedAt                 Status 
+--------------------------------------------------------------------------------------
+clfavacy70002mm08nwjurrec  2023-03-16T08:46:34.255Z  2023-03-16T08:47:45.964Z  SUCCESS
+```
+
+## Introducing PATs
+
+A key part of this project is the possibility for developers to get our tools like the CLI and the SDK and use them in their projects.
+
+At the moment we have only been talking about the CLI, but we have also been working on the SDK. The SDK is a library that you can use in your projects to interact with the Fleek platform.
+
+Acutally you can check the releases of the SDK by checking https://www.npmjs.com/package/@fleekxyz/sdk
+
+The CLI uses the SDK under the hood, and now we have make it so the users can get PATs (personal access tokens) from the CLI that they can use to authenticate on the SDK.
+
+Currently the SDK can only be used on Node environments but soon we will make it availble for web environments as also create the possibity for uses to create application tokens that can be used to authenticate on the SDK.
+
+If you want to start checking the SDK you can get you PATs using the CLI where you have the following methods:
+
+* List
+* Create
+* Delete
+
+```bash
+> fleek pat list
+WARN! Fleek CLI is in beta, use it at your own discretion
+
+ID                         CreatedAt               
+---------------------------------------------------
+cld1ojvqy000bl608z3xk2765  2023-01-18T13:08:40.955Z
+cld1osjsl000il608migk359u  2023-01-18T13:15:25.366Z
+cld1ovg840000jx08o2m8pje3  2023-01-18T13:17:40.708Z
+cld2zs1d80000l6080oi2qzvd  2023-01-19T11:10:43.436Z
+cld2zubfj0004jt08p2zf4ibg  2023-01-19T11:12:29.792Z
+cld2zvqbv0006jt08d80nxb08  2023-01-19T11:13:35.756Z
+cld2zzj110007jt08d1ontr3q  2023-01-19T11:16:32.918Z
+```	
+
+To create a new one you have the `create` command, this will trigger an auithentication flow where you will be asked to authenticate with your Fleek account thus geting the new PAT.
+
+```bash
+> fleek pat create
+WARN! Fleek CLI is in beta, use it at your own discretion
+> Please follow this link to log in to Fleek.
+> https://app.fleek.xyz/login/75a67c4814be70a6481a683e5031f661
+> Success! Your new personal access token is: pat_WsJ
+```
+
+We can list again to check the ID of the last created token and for example delete it.
+
+```bash
+> fleek pat delete clfcfb3xw0000ln08jf6s1ukn
+WARN! Fleek CLI is in beta, use it at your own discretion
+> Success! Your personal access token was deactivated and deleted.
+```
+
+We are looking forward to see what you can build with the SDK!
+
+## A look at the backoffice
+
+One of the key aspects of this project in comparison to the previous iteration is to provide a much more tailored service to our users.
+
+To acomplish this we have been working on the backoffice, a web application built on top of interval that allow us to see and manage key information about the project.
+
+Over the last week we have introduce key features like:
+
+* Typed routes
+* Graph library
+* Generic tables
+* Diff managment and notification
+* Base upsert form 
+
+With all this legos we are able to build the different pages of the backoffice and displaying information like
+
+* Projects
+* Sites
+* Domains
+* Deployments
+* KPIS
+    * Recent Deploys
+    * Recent Pins
+    * Aprox Storage Usage per project
+
+We want to create a Backoffice that follows the following structure
+
+![CI](public/images/backoffice.png)
